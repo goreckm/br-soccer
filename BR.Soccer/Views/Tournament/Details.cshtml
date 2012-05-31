@@ -1,0 +1,698 @@
+﻿@model BR.Soccer.Models.Tournament
+
+@{
+    ViewBag.Title = "Details";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@Model.Name</title>
+<style type="text/css">
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+    background: #fff;
+}
+p {
+	font-size: 12px;
+}
+
+ul {
+	float:left;
+	clear: both;
+	list-style-type: none;
+	padding:0;
+	margin:0;
+	width:100%;
+}
+
+ul li {
+	float:left;
+	width:650px;
+	height: auto;
+	padding:0;
+	margin:0;	
+}
+
+
+ol {
+    background: #eaeeec;
+    list-style-type: none;
+    width: 650px;
+    height: auto;
+    font-size: 11px;
+    padding: 10px 12px 10px 12px;
+}
+
+ol li {
+    margin: 0 0 6px 0;
+
+}
+
+.standings tr th {
+	color: #000;
+	background-color: #FFFFFF;
+	font-weight: bold;
+}
+.standings tr td {
+    background-color: #FFFFFF;
+    color: #003399;
+    font-weight: bold;
+} 
+
+.standings td.blank {
+	background-color:#fff;
+} 
+
+.standings td.team_name {
+    background-color: #172d80;
+    color: #fff;
+    font-weight: bold;
+    text-align: left;
+    width:344px;
+    font-size: 14px;
+} 
+
+.standings td.team_name span {
+	color: #ADCCFB;
+	font-size: 13px;
+}
+
+.games td.team_name {
+    background-color: #A1B6F7;
+    color: #142539;
+    font-weight: bold;
+    text-align: left;  
+    font-size: 14px;  
+} 
+
+.standings td.result  {
+    background-color: #333333;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-align: center;
+    font-size: 14px; 
+} 
+
+.standings td.q, .games td.q  {
+    background-color: #e6d410;
+    color: #000;
+    font-weight: bold;
+    text-align: left;
+    font-size: 14px; 
+} 
+
+.standings td.q span {
+	color: #999;
+}
+
+.standings td.result.q {
+	text-align: center;
+}
+
+.games td.result {
+    background-color: #000;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-align: center;
+    font-size: 14px; 
+} 
+
+p { font-size: 14px; font-weight: bold; color: #cc0000; }
+
+img { margin: 0 0 6px 0;}
+
+h3 { font-size: 14px;}
+
+
+</style>
+
+</head>
+
+<body>
+<h1>@Model.Name</h1>
+
+
+<ol>
+    <h2>RULES</h2>
+    <li><strong>GROUP STAGE</strong> EACH TEAM PLAYS EACH OTHER ONCE. YOU GET 3 POINTS FOR A WIN, 1 POINT FOR A DRAW AND 0 FOR A LOSS. TOP 2 TEAMS FROM EACH GROUP PLUS THE 4 BEST 3RD PLACED TEAMS QUALIFY FOR ROUND 2. IF TEAMS ARE LEVEL THE TEAM WITH THE BETTER GOAL DIFFERENCE QUALIFIES. IF TEAMS ARE STILL LEVEL THEN THE TEAM WITH THE BETTER HEAD TO HEAD RECORD QUALIFIES</li>
+    <li><strong>LAST 16</strong> ONE GAME. IF TEAMS ARE LEVEL THEN IT WILL GO INTO EXTRA TIME AND THEN PENALTIES IF THERE IS STILL NO WINNER</li>
+    <li><strong>QUARTER FINALS</strong> ONE GAME. IF TEAMS ARE LEVEL THEN IT WILL GO INTO EXTRA TIME AND THEN PENALTIES IF THERE IS STILL NO WINNER</li>
+    <li><strong>SEMI FINALS</strong> ONE GAME. IF TEAMS ARE LEVEL THEN IT WILL GO INTO EXTRA TIME AND THEN PENALTIES IF THERE IS STILL NO WINNER</li>
+    <li><strong>FINAL</strong> ONE GAME. IF IT IS NOT SETTLED AT FULL TIME, TEAMS GO INTO EXTRA TIME AND THEN PENALTIES IF REQUIRED</li>
+</ol>
+
+<h2>GROUP STAGE</h2>
+
+<ul>
+    <li>
+    <table border="0" cellpadding="4" cellspacing="1" class="standings" width="643">
+    <tr>
+        <td class="blank" width="36%">GROUP A</td>
+        <th width="8%">PLD</td>
+        <th width="8%">W</td>
+        <th width="8%">D</td>
+        <th width="8%">L</td>
+        <th width="8%">F</td>
+        <th width="8%">A</td>
+        <th width="8%">GD</td>
+        <th width="8%">PTS</td>   
+    </tr>
+    <tr>
+        <td class="team_name">EVERTON <span>(Shawn Connors)</span></td>
+        <td class="result">1</td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">6</td>
+        <td class="result">0</td>
+        <td class="result">+6</td>  
+        <td class="result">3</td>                       
+    </tr>  
+    <tr>
+        <td class="team_name">JEJU UNITED FC <span>(Computer)</span></td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>  
+        <td class="result">0</td>                       
+    </tr> 
+    <tr>
+        <td class="team_name">LIVERPOOL <span>(Jason Goodwin)</span></td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>  
+        <td class="result">0</td>                       
+    </tr>                            
+    <tr>
+        <td class="team_name">BARCELONA <span>(Rodolfo)</span></td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">6</td>
+        <td class="result">-6</td>  
+        <td class="result">0</td>                      
+    </tr> 
+</table>  
+<br /><br />
+<table border="0" cellpadding="4" cellspacing="1" class="games" width="600">
+    <tr>
+        <td class="team_name">BARCELONA</td>
+        <td class="result">0-6</td>
+        <td class="team_name">EVERTON</td>
+    </tr>
+    <tr>
+        <td class="team_name">JEJU UNITED FC</td>
+        <td class="result">VS</td>
+        <td class="team_name">LIVERPOOL</td>
+    </tr>
+    <tr>
+        <td class="team_name">LIVERPOOL</td>
+        <td class="result">VS</td>
+        <td class="team_name">EVERTON</td>
+    </tr>
+    <tr>
+        <td class="team_name">JEJU UNITED FC</td>
+        <td class="result">VS</td>
+        <td class="team_name">BARCELONA</td>
+    </tr>
+    <tr>
+        <td class="team_name">EVERTON</td>
+        <td class="result">VS</td>
+        <td class="team_name">JEJU UNITED FC</td>
+    </tr>
+    <tr>
+        <td class="team_name">BARCEONA</td>
+        <td class="result">VS</td>
+        <td class="team_name">LIVERPOOL</td>
+    </tr>                                                                  
+</table>
+<br /><br />
+    <table border="0" cellpadding="4" cellspacing="1" class="standings" width="643">
+    <tr>
+        <td class="blank" width="36%">GROUP B</td>
+        <th width="8%">PLD</td>
+        <th width="8%">W</td>
+        <th width="8%">D</td>
+        <th width="8%">L</td>
+        <th width="8%">F</td>
+        <th width="8%">A</td>
+        <th width="8%">GD</td>
+        <th width="8%">PTS</td>   
+    </tr>
+    <tr>
+        <td class="team_name">ATHLETICO BILBAO <span>(Josue)</span></td>
+        <td class="result">3</td>
+        <td class="result">3</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">9</td>
+        <td class="result">0</td>
+        <td class="result">+9</td>  
+        <td class="result">9</td>                       
+    </tr> 
+    <tr>
+        <td class="team_name">SEATTLE SOUNDERS <span>(Computer)</span></td>
+        <td class="result">2</td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">1</td>
+        <td class="result">3</td>
+        <td class="result">2</td>
+        <td class="result">+1</td>  
+        <td class="result">3</td>                       
+    </tr>         
+    <tr>
+        <td class="team_name">A MAKHACHKALA <span>(Sean Mc)</span></td>
+        <td class="result">2</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">2</td>
+        <td class="result">1</td>
+        <td class="result">5</td>
+        <td class="result">-4</td>  
+        <td class="result">0</td>                       
+    </tr>  
+    <tr>
+        <td class="team_name">REAL MADRID <span>(Neo)</span></td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">6</td>
+        <td class="result">-6</td>  
+        <td class="result">0</td>                       
+    </tr> 
+</table>  
+<br /><br />
+<table border="0" cellpadding="4" cellspacing="1" class="games" width="600">
+    <tr>
+        <td class="team_name">REAL MADRID</td>
+        <td class="result">0-6</td>
+        <td class="team_name">ATHLETICO BILBAO</td>
+    </tr>
+    <tr>
+        <td class="team_name">SEATTLE SOUNDERS</td>
+        <td class="result">3-1</td>
+        <td class="team_name">A MAKHACHKALA</td>
+    </tr>
+    <tr>
+        <td class="team_name">A MAKHACHKALA</td>
+        <td class="result">VS</td>
+        <td class="team_name">REAL MADRID</td>
+    </tr>
+    <tr>
+        <td class="team_name">SEATTLE SOUNDERS</td>
+        <td class="result">0-1</td>
+        <td class="team_name">ATHLETICO BILBAO</td>
+    </tr>
+    <tr>
+        <td class="team_name">ATHLETICO BILBAO</td>
+        <td class="result">2-0</td>
+        <td class="team_name">A MAKHACHKALA</td>
+    </tr>
+    <tr>
+        <td class="team_name">REAL MADRID</td>
+        <td class="result">VS</td>
+        <td class="team_name">SEATTLE SOUNDERS</td>
+    </tr>                                                                  
+</table>
+<br /><br />
+    <table border="0" cellpadding="4" cellspacing="1" class="standings" width="643">
+    <tr>
+        <td class="blank" width="36%">GROUP C</td>
+        <th width="8%">PLD</td>
+        <th width="8%">W</td>
+        <th width="8%">D</td>
+        <th width="8%">L</td>
+        <th width="8%">F</td>
+        <th width="8%">A</td>
+        <th width="8%">GD</td>
+        <th width="8%">PTS</td>   
+    </tr>
+    <tr>
+        <td class="team_name">MAN CITY <span>(Michal Gorecki)</span></td>
+        <td class="result">3</td>
+        <td class="result">2</td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">6</td>
+        <td class="result">1</td>
+        <td class="result">+5</td>  
+        <td class="result">7</td>                       
+    </tr> 
+    <tr>
+        <td class="team_name">SAO PAULO <span>(Nicolas)</span></td>
+        <td class="result">2</td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">1</td>
+        <td class="result">3</td>
+        <td class="result">3</td>
+        <td class="result">0</td>  
+        <td class="result">3</td>                       
+    </tr>     
+    <tr>
+        <td class="team_name">FLAMENGO <span>(Richard)</span></td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>  
+        <td class="result">1</td>                       
+    </tr>     
+    <tr>
+        <td class="team_name">TORONTO FC <span>(Computer)</span></td>
+        <td class="result">2</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">2</td>
+        <td class="result">2</td>
+        <td class="result">7</td>
+        <td class="result">-5</td>  
+        <td class="result">0</td>                       
+    </tr>                            
+</table>  
+<br /><br />
+<table border="0" cellpadding="4" cellspacing="1" class="games" width="600">
+    <tr>
+        <td class="team_name">MAN CITY</td>
+        <td class="result">2-0</td>
+        <td class="team_name">SAO PAULO</td>
+    </tr>
+    <tr>
+        <td class="team_name">TORONTO FC</td>
+        <td class="result">VS</td>
+        <td class="team_name">FLAMENGO</td>
+    </tr>
+    <tr>
+        <td class="team_name">SAO PAULO</td>
+        <td class="result">3-1</td>
+        <td class="team_name">TORONTO FC</td>
+    </tr>
+    <tr>
+        <td class="team_name">FLAMENGO</td>
+        <td class="result">0-0</td>
+        <td class="team_name">MAN CITY</td>
+    </tr>
+    <tr>
+        <td class="team_name">MAN CITY</td>
+        <td class="result">4-1</td>
+        <td class="team_name">TORONTO FC</td>
+    </tr>
+    <tr>
+        <td class="team_name">FLAMENGO</td>
+        <td class="result">VS</td>
+        <td class="team_name">TORONTO FC</td>
+    </tr>                                                                  
+</table>
+<br /><br />
+<table border="0" cellpadding="4" cellspacing="1" class="standings" width="643">
+    <tr>
+        <td class="blank" width="36%">GROUP D</td>
+        <th width="8%">PLD</td>
+        <th width="8%">W</td>
+        <th width="8%">D</td>
+        <th width="8%">L</td>
+        <th width="8%">F</td>
+        <th width="8%">A</td>
+        <th width="8%">GD</td>
+        <th width="8%">PTS</td>   
+    </tr>
+    <tr>
+        <td class="team_name">INTER MILAN <span>(David)</span></td>
+        <td class="result">2</td>
+        <td class="result">2</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">3</td>
+        <td class="result">1</td>
+        <td class="result">+2</td>  
+        <td class="result">6</td>                       
+    </tr> 
+    <tr>
+        <td class="team_name">PERTH GLORY <span>(Computer)</span></td>
+        <td class="result">2</td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">1</td>
+        <td class="result">3</td>
+        <td class="result">2</td>
+        <td class="result">+1</td>  
+        <td class="result">3</td>                       
+    </tr>     
+    <tr>
+        <td class="team_name">SANTOS <span>(Timmy)</span></td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>  
+        <td class="result">0</td>                       
+    </tr> 
+    <tr>
+        <td class="team_name">MAN UNITED <span>(Andre)</span></td>
+        <td class="result">2</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">2</td>
+        <td class="result">0</td>
+        <td class="result">3</td>
+        <td class="result">-3</td>  
+        <td class="result">0</td>                       
+    </tr>                        
+</table>  
+<br /><br />
+<table border="0" cellpadding="4" cellspacing="1" class="games" width="600">
+    <tr>
+        <td class="team_name">INTER MILAN</td>
+        <td class="result">VS</td>
+        <td class="team_name">SANTOS</td>
+    </tr>
+    <tr>
+        <td class="team_name">PERTH GLORY</td>
+        <td class="result">2-0</td>
+        <td class="team_name">MAN UNITED</td>
+    </tr>
+    <tr>
+        <td class="team_name">SANTOS</td>
+        <td class="result">VS</td>
+        <td class="team_name">PERTH GLORY</td>
+    </tr>
+    <tr>
+        <td class="team_name">MAN UNITED</td>
+        <td class="result">0-1</td>
+        <td class="team_name">INTER MILAN</td>
+    </tr>
+    <tr>
+        <td class="team_name">SANTOS</td>
+        <td class="result">VS</td>
+        <td class="team_name">MAN UNITED</td>
+    </tr>
+    <tr>
+        <td class="team_name">INTER MILAN</td>
+        <td class="result">2-1</td>
+        <td class="team_name">PERTH GLORY</td>
+    </tr>                                                                  
+</table>
+<br /><br />
+    <table border="0" cellpadding="4" cellspacing="1" class="standings" width="643">
+    <tr>
+        <td class="blank" width="36%">GROUP E</td>
+        <th width="8%">PLD</td>
+        <th width="8%">W</td>
+        <th width="8%">D</td>
+        <th width="8%">L</td>
+        <th width="8%">F</td>
+        <th width="8%">A</td>
+        <th width="8%">GD</td>
+        <th width="8%">PTS</td>   
+    </tr>
+    <tr>
+        <td class="team_name">ARSENAL <span>(Spencer)</span></td>
+        <td class="result">2</td>
+        <td class="result">1</td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">7</td>
+        <td class="result">1</td>
+        <td class="result">+6</td>  
+        <td class="result">4</td>                       
+    </tr> 
+    <tr>
+        <td class="team_name">ASTON VILLA <span>(Kyri)</span></td>
+        <td class="result">2</td>
+        <td class="result">1</td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">6</td>
+        <td class="result">1</td>
+        <td class="result">+5</td>  
+        <td class="result">4</td>                       
+    </tr>     
+    <tr>
+        <td class="team_name">CHELSEA <span>(Victor)</span></td>
+        <td class="result">2</td>
+        <td class="result">0</td>
+        <td class="result">2</td>
+        <td class="result">0</td>
+        <td class="result">2</td>
+        <td class="result">2</td>
+        <td class="result">0</td>  
+        <td class="result">2</td>                       
+    </tr> 
+    <tr>
+        <td class="team_name">WARTA POZNAN <span>(Computer)</span></td>
+        <td class="result">2</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">2</td>
+        <td class="result">0</td>
+        <td class="result">11</td>
+        <td class="result">-11</td>  
+        <td class="result">0</td>                       
+    </tr>                            
+</table>  
+<br /><br />
+<table border="0" cellpadding="4" cellspacing="1" class="games" width="600">
+    <tr>
+        <td class="team_name">CHELSEA</td>
+        <td class="result">1-1</td>
+        <td class="team_name">ASTON VILLA</td>
+    </tr>
+    <tr>
+        <td class="team_name">L.POZNAN</td>
+        <td class="result">0-6</td>
+        <td class="team_name">ARSENAL</td>
+    </tr>
+    <tr>
+        <td class="team_name">ARSENAL</td>
+        <td class="result">1-1</td>
+        <td class="team_name">CHELSEA</td>
+    </tr>
+    <tr>
+        <td class="team_name">ASTON VILLA</td>
+        <td class="result">5-0</td>
+        <td class="team_name">L.POZNAN</td>
+    </tr>
+    <tr>
+        <td class="team_name">ASTON VILLA</td>
+        <td class="result">VS</td>
+        <td class="team_name">ARSENAL</td>
+    </tr>
+    <tr>
+        <td class="team_name">L.POZNAN</td>
+        <td class="result">VS</td>
+        <td class="team_name">CHELSEA</td>
+    </tr>                                                                  
+</table>
+<br /><br />
+    <table border="0" cellpadding="4" cellspacing="1" class="standings" width="643">
+    <tr>
+        <td class="blank" width="36%">GROUP F</td>
+        <th width="8%">PLD</td>
+        <th width="8%">W</td>
+        <th width="8%">D</td>
+        <th width="8%">L</td>
+        <th width="8%">F</td>
+        <th width="8%">A</td>
+        <th width="8%">GD</td>
+        <th width="8%">PTS</td>   
+    </tr>
+    <tr>
+        <td class="team_name">UDINESE <span>(Anthony)</span></td>
+        <td class="result">2</td>
+        <td class="result">2</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">13</td>
+        <td class="result">0</td>
+        <td class="result">+13</td>  
+        <td class="result">6</td>                       
+    </tr> 
+    <tr>
+        <td class="team_name">KAIZER CHIEFS <span>(Computer)</span></td>
+        <td class="result">2</td>
+        <td class="result">1</td>
+        <td class="result">0</td>
+        <td class="result">1</td>
+        <td class="result">2</td>
+        <td class="result">6</td>
+        <td class="result">-4</td>  
+        <td class="result">3</td>                       
+    </tr> 
+    <tr>
+        <td class="team_name">TOTTENHAM <span>(Mark Handy)</span></td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">0</td>  
+        <td class="result">0</td>                       
+    </tr> 
+    <tr>
+        <td class="team_name">BAYERN MUNICH <span>(Michael Mc)</span></td>
+        <td class="result">2</td>
+        <td class="result">0</td>
+        <td class="result">0</td>
+        <td class="result">2</td>
+        <td class="result">1</td>
+        <td class="result">10</td>
+        <td class="result">-9</td>  
+        <td class="result">0</td>                       
+    </tr> 
+</table>  
+<br /><br />
+<table border="0" cellpadding="4" cellspacing="1" class="games" width="600">
+    <tr>
+        <td class="team_name">BAYERN MUNICH</td>
+        <td class="result">0-8</td>
+        <td class="team_name">UDINESE</td>
+    </tr>
+    <tr>
+        <td class="team_name">KAIZER CHIEFS</td>
+        <td class="result">VS</td>
+        <td class="team_name">TOTTENHAM</td>
+    </tr>
+    <tr>
+        <td class="team_name">UDINESE</td>
+        <td class="result">5-0</td>
+        <td class="team_name">KAIZER CHIEFS</td>
+    </tr>
+    <tr>
+        <td class="team_name">TOTTENHAM</td>
+        <td class="result">VS</td>
+        <td class="team_name">BAYERN MUNICH</td>
+    </tr>
+    <tr>
+        <td class="team_name">BAYERN MUNICH</td>
+        <td class="result">1-2</td>
+        <td class="team_name">KAIZER CHIEFS</td>
+    </tr>
+    <tr>
+        <td class="team_name">TOTTENHAM</td>
+        <td class="result">VS</td>
+        <td class="team_name">UDINESE</td>
+    </tr>                                                                  
+</table>
+<br /><br />
+</body>
+</html>
