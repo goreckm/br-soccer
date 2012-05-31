@@ -4,3 +4,9 @@ obj
 
 # mstest test results
 TestResults
+
+packages/
+
+*.suo
+*.csproj.user
+*.sln.docstates
