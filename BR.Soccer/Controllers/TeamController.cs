@@ -86,31 +86,6 @@ namespace BR.Soccer.Controllers
             return View(team);
         }
 
-        //
-        // GET: /Team/Delete/5
-
-        public ActionResult Delete(int id = 0)
-        {
-            Team team = db.Teams.Find(id);
-            if (team == null)
-            {
-                return HttpNotFound();
-            }
-            return View(team);
-        }
-
-        //
-        // POST: /Team/Delete/5
-
-        [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Team team = db.Teams.Find(id);
-            db.Teams.Remove(team);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
