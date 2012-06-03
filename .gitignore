@@ -6,6 +6,7 @@ obj
 TestResults
 
 packages/
+App_Data/
 
 *.suo
 *.csproj.user
