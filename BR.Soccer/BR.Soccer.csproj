@@ -107,6 +107,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Migrations\201206021825276_InitialCreate.cs" />
+    <Compile Include="Migrations\201206021825276_InitialCreate.Designer.cs">
+      <DependentUpon>201206021825276_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\InputModels\TournamentGameResult.cs" />
     <Compile Include="Models\ViewModels\GameResultViewModel.cs" />
