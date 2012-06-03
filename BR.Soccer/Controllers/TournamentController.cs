@@ -1,35 +1,189 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using BR.Soccer.Models;
+using BR.Soccer.Models.InputModels;
+using BR.Soccer.Models.ViewModels;
 
 namespace BR.Soccer.Controllers
 {
     public class TournamentController : Controller
     {
+        private DataContext db = new DataContext();
+
         //
         // GET: /Tournament/
 
         public ActionResult Index()
         {
-            var tournamentList = new List<Tournament>()
-            {
-                new Tournament { Id = 1, Name = "FIFA 4 Star Challenge" }
-            };
-
-            return View(tournamentList);
+            return View(db.Tournaments.ToList());
         }
 
         //
         // GET: /Tournament/Details/5
 
-        public ActionResult Details(int id)
+        public ActionResult Details(int id = 0)
         {
-            var tournament = new Tournament { Id = 1, Name = "FIFA 4 Star Challenge" };
+            var tournament = db.Tournaments.Find(id);
+            if (tournament == null)
+            {
+                return HttpNotFound();
+            }
 
-            return View(tournament);
+            var viewModel = new TournamentViewModel
+            {
+                Name = tournament.Name
+            };
+
+            var stage = tournament.Stages.FirstOrDefault(s => s.Order == 1);
+            var stageViewModel = new GroupStageViewModel
+            {
+                Name = stage.Name
+            };
+
+            var groupViewModels = new List<GroupViewModel>();
+            var games = stage.Games;
+            var groups = stage.Groups;
+            foreach (var group in groups)
+            {
+                // If team 1 is in the group, then by necessity team 2 is in group as well, unless something has gone
+                // horribly wrong
+                var groupGames = from game in games
+                                 where @group.Teams.Contains(game.Team1)
+                                 select game;
+
+                var teamStats = (from team in @group.Teams
+                                 let stats = GetGroupStanding(team, groupGames)
+                                 orderby stats.Points descending, stats.GoalDifference descending
+                                 select stats).ToList();
+
+                foreach (var stat in teamStats)
+                {
+                    IsClinched(stat, teamStats);
+                }
+
+                var results = from game in groupGames
+                             select new GameResultViewModel
+                             {
+                                 Team1 = game.Team1.Team.Name,
+                                 Team2 = game.Team2.Team.Name,
+                                 Team1Score = game.Team1Score,
+                                 Team2Score = game.Team2Score,
+                                 Status = game.Status,
+                                 GameId = game.GameId
+                             };
+
+                var groupViewModel = new GroupViewModel
+                {
+                    Name = group.Name,
+                    TeamStandings = teamStats,
+                    Results = results
+                };
+
+                groupViewModels.Add(groupViewModel);
+            }
+            stageViewModel.Groups = groupViewModels;
+
+            viewModel.Stages = new List<StageViewModel> { stageViewModel };
+
+            ViewBag.TournamentId = tournament.TournamentId;
+
+            return View(viewModel);
+        }
+
+        // simple isclinched function
+        private bool IsClinched(GroupEntryViewModel teamStat, IEnumerable<GroupEntryViewModel> standings)
+        {
+            int numLower = 0;
+            foreach (var standing in standings)
+            {
+                if (standing.TeamName == teamStat.TeamName)
+                    continue;
+
+                int gamesLeft = 3 - standing.PlayedGames;
+                int maxPoints = standing.Points + (3 * gamesLeft);
+                if (teamStat.Points > maxPoints)
+                    numLower++;
+            }
+
+            return teamStat.IsPromoted = numLower >= 2;
+        }
+
+        private GroupEntryViewModel GetGroupStanding(MatchTeam team, IEnumerable<Game> games)
+        {
+            var model = new GroupEntryViewModel
+            {
+                TeamName = team.Team.Name,
+                PlayerNames = team.Players.Count() == 0 ? new List<string> { "Computer" } : team.Players.Select(p => p.Name)
+            };
+
+            foreach (var game in games.Where(g => g.Status != GameStatus.NotPlayed))
+            {
+                if (game.Team1.MatchTeamId == team.MatchTeamId)
+                    model = CalculateTeam(model, game.Team1Score, game.Team2Score);
+                else if (game.Team2.MatchTeamId == team.MatchTeamId)
+                    model = CalculateTeam(model, game.Team2Score, game.Team1Score);
+            }
+
+            return model;
+        }
+
+        private GroupEntryViewModel CalculateTeam(GroupEntryViewModel model, int myTeamScore, int theirTeamScore)
+        {
+            model.GoalsFor += myTeamScore;
+            model.GoalsAgainst += theirTeamScore;
+
+            if (myTeamScore > theirTeamScore)
+                model.Wins++;
+            else if (myTeamScore == theirTeamScore)
+                model.Draws++;
+            else
+                model.Losses++;
+
+            return model;
+        }
+
+        //
+        // GET: /Tournament/MatchResults
+
+        public ActionResult MatchResults(int id, int tournamentId)
+        {
+            var model = new TournamentGameResult();
+            model.GameId = id;
+            model.TournamentId = tournamentId;
+
+            var game = db.Games.Find(id);
+            model.Team1Score = game.Team1Score;
+            model.Team2Score = game.Team2Score;
+
+            return View(model);
+        }
+
+        //
+        // POST: /Tournament/MatchResults()
+
+        [HttpPost]
+        public ActionResult MatchResults(TournamentGameResult model)
+        {
+            var game = db.Games.Find(model.GameId);
+
+            if (ModelState.IsValid)
+            {
+                game.Team1Score = model.Team1Score;
+                game.Team2Score = model.Team2Score;
+                game.Status = GameStatus.Played;
+
+                db.Entry(game).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Details", new { id = model.TournamentId, admin = 1 });
+            }
+
+            return View(model);
         }
 
         //
@@ -44,70 +198,51 @@ namespace BR.Soccer.Controllers
         // POST: /Tournament/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Tournament tournament)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                db.Tournaments.Add(tournament);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(tournament);
         }
 
         //
         // GET: /Tournament/Edit/5
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id = 0)
         {
-            return View();
+            Tournament tournament = db.Tournaments.Find(id);
+            if (tournament == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tournament);
         }
 
         //
         // POST: /Tournament/Edit/5
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Tournament tournament)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
+                db.Entry(tournament).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            return View(tournament);
         }
 
-        //
-        // GET: /Tournament/Delete/5
 
-        public ActionResult Delete(int id)
+        protected override void Dispose(bool disposing)
         {
-            return View();
-        }
-
-        //
-        // POST: /Tournament/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            db.Dispose();
+            base.Dispose(disposing);
         }
     }
 }

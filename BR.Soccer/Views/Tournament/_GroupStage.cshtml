@@ -1,0 +1,44 @@
+﻿@model BR.Soccer.Models.ViewModels.GroupStageViewModel
+
+<h2>@Model.Name</h2>
+
+
+<ul><li>
+@foreach(var group in Model.Groups) 
+{    
+    <table border="0" cellpadding="4" cellspacing="1" class="standings" width="643">
+        <tr>
+            <td class="blank" width="36%">@group.Name</td>
+            <th width="8%">PLD</th>
+            <th width="8%">W</th>
+            <th width="8%">D</th>
+            <th width="8%">L</th>
+            <th width="8%">F</th>
+            <th width="8%">A</th>
+            <th width="8%">GD</th>
+            <th width="8%">PTS</th>   
+        </tr>
+
+        @foreach (var entry in group.TeamStandings)
+        {
+            Html.RenderPartial("_GroupStandings", entry);
+        }
+    </table>  
+    <br /><br />
+            
+    <table border="0" cellpadding="4" cellspacing="1" class="games" width="600">
+    @foreach (var result in group.Results)
+    {
+        <tr>
+            <td class="team_name">@result.Team1</td>
+            <td class="result">@result.ResultFormatted</td>
+            <td class="team_name">@result.Team2</td>
+            @if(Request.QueryString["admin"] != null) {
+            <td>@Html.ActionLink("Edit", "MatchResults", new {id = result.GameId, tournamentId = ViewBag.TournamentId})</td>
+            }
+        </tr>
+    }
+    </table>
+    <br /><br />
+}
+</li></ul>
