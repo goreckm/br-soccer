@@ -12,5 +12,8 @@ namespace BR.Soccer.Models.InputModels
 
         public int Team1Score { get; set; }
         public int Team2Score { get; set; }
+
+        public string Team1Name { get; set; }
+        public string Team2Name { get; set; }
     }
 }

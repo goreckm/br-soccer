@@ -169,6 +169,8 @@ namespace BR.Soccer.Controllers
             var game = db.Games.Find(id);
             model.Team1Score = game.Team1Score;
             model.Team2Score = game.Team2Score;
+            model.Team1Name = game.Team1.Name;
+            model.Team2Name = game.Team2.Name;
 
             return View(model);
         }
@@ -192,6 +194,9 @@ namespace BR.Soccer.Controllers
 
                 return RedirectToAction("Details", new { id = model.TournamentId, admin = 1 });
             }
+
+            model.Team1Name = game.Team1.Name;
+            model.Team2Name = game.Team2.Name;
 
             return View(model);
         }

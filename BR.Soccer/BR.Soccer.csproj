@@ -182,7 +182,6 @@
     <Content Include="Views\Tournament\Details.cshtml" />
     <Content Include="Views\Tournament\Create.cshtml" />
     <Content Include="Views\Tournament\Edit.cshtml" />
-    <Content Include="Views\Tournament\Delete.cshtml" />
     <Content Include="Views\Tournament\_GroupStage.cshtml" />
     <Content Include="Views\Tournament\_GroupStandings.cshtml" />
     <Content Include="Views\Tournament\MatchResults.cshtml" />

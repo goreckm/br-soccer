@@ -10,13 +10,13 @@
     @Html.ValidationSummary(true)
 
     <fieldset>
-        <legend>TournamentGameResult</legend>
+        <legend>Tournament Game Result</legend>
 
         @Html.HiddenFor(model => model.GameId)
         @Html.HiddenFor(model => model.TournamentId)
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Team1Score)
+            @Html.LabelFor(model => model.Team1Score, Model.Team1Name)
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Team1Score)
@@ -24,7 +24,7 @@
         </div>
 
         <div class="editor-label">
-            @Html.LabelFor(model => model.Team2Score)
+            @Html.LabelFor(model => model.Team2Score, Model.Team2Name)
         </div>
         <div class="editor-field">
             @Html.EditorFor(model => model.Team2Score)
