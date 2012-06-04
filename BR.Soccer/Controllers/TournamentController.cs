@@ -66,16 +66,16 @@ namespace BR.Soccer.Controllers
                     IsClinched(stat, teamStats);
                 }
 
-                var results = from game in groupGames
-                             select new GameResultViewModel
-                             {
+                var results = (from game in groupGames
+                               select new GameResultViewModel
+                               {
                                  Team1 = game.Team1.Name,
                                  Team2 = game.Team2.Name,
                                  Team1Score = game.Team1Score,
                                  Team2Score = game.Team2Score,
                                  Status = game.Status,
                                  GameId = game.GameId
-                             };
+                               }).ToList();
 
                 var groupViewModel = new GroupViewModel
                 {
