@@ -24,6 +24,8 @@ namespace BR.Soccer
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            Database.SetInitializer<DataContext>(new MigrateDatabaseToLatestVersion<DataContext, BR.Soccer.Migrations.Configuration>());
         }
     }
 }

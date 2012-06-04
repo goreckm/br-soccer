@@ -12,6 +12,6 @@ namespace BR.Soccer.Models
         public int GroupId { get; set; }
 
         public string Name { get; set; }
-        public virtual ICollection<MatchTeam> Teams { get; set; }
+        public virtual ICollection<GroupTeam> Teams { get; set; }
     }
 }

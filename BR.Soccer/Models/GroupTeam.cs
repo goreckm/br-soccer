@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
+using System.Web;
 
 namespace BR.Soccer.Models
 {
-    public class MatchTeam
+    public class GroupTeam
     {
         [Key]
-        public int MatchTeamId { get; set; }
+        public int GroupTeamId { get; set; }
 
         public virtual Team Team { get; set; }
-        public virtual ICollection<Player> Players { get; set; }
+        public virtual Player Player1 { get; set; }
+        public virtual Player Player2 { get; set; }
     }
 }

@@ -107,12 +107,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Migrations\201206021825276_InitialCreate.cs" />
-    <Compile Include="Migrations\201206021825276_InitialCreate.Designer.cs">
-      <DependentUpon>201206021825276_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201206040106127_InitialCreate.cs" />
+    <Compile Include="Migrations\201206040106127_InitialCreate.Designer.cs">
+      <DependentUpon>201206040106127_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Game.cs" />
+    <Compile Include="Models\GroupTeam.cs" />
     <Compile Include="Models\InputModels\TournamentGameResult.cs" />
     <Compile Include="Models\ViewModels\GameResultViewModel.cs" />
     <Compile Include="Models\ViewModels\GroupViewModel.cs" />
@@ -125,7 +126,6 @@
     </Compile>
     <Compile Include="Models\DataContext.cs" />
     <Compile Include="Models\Group.cs" />
-    <Compile Include="Models\MatchTeam.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\Stage.cs" />
     <Compile Include="Models\Team.cs" />
@@ -156,7 +156,9 @@
       <DependentUpon>jquery.validate.unobtrusive.js</DependentUpon>
     </Content>
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

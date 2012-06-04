@@ -53,11 +53,11 @@ namespace BR.Soccer.Controllers
                 // If team 1 is in the group, then by necessity team 2 is in group as well, unless something has gone
                 // horribly wrong
                 var groupGames = from game in games
-                                 where @group.Teams.Contains(game.Team1)
+                                 where @group.Teams.Select(t => t.Team).Contains(game.Team1)
                                  select game;
 
                 var teamStats = (from team in @group.Teams
-                                 let stats = GetGroupStanding(team, groupGames)
+                                 let stats = GetGroupEntry(team, groupGames)
                                  orderby stats.Points descending, stats.GoalDifference descending
                                  select stats).ToList();
 
@@ -69,8 +69,8 @@ namespace BR.Soccer.Controllers
                 var results = from game in groupGames
                              select new GameResultViewModel
                              {
-                                 Team1 = game.Team1.Team.Name,
-                                 Team2 = game.Team2.Team.Name,
+                                 Team1 = game.Team1.Name,
+                                 Team2 = game.Team2.Name,
                                  Team1Score = game.Team1Score,
                                  Team2Score = game.Team2Score,
                                  Status = game.Status,
@@ -113,26 +113,36 @@ namespace BR.Soccer.Controllers
             return teamStat.IsPromoted = numLower >= 2;
         }
 
-        private GroupEntryViewModel GetGroupStanding(MatchTeam team, IEnumerable<Game> games)
+        private GroupEntryViewModel GetGroupEntry(GroupTeam team, IEnumerable<Game> games)
         {
+            var players = new List<string>();
+            if (team.Player1 == null)
+                players.Add("Computer");
+            else
+            {
+                players.Add(team.Player1.Name);
+                if (team.Player2 != null)
+                    players.Add(team.Player2.Name);
+            }
+
             var model = new GroupEntryViewModel
             {
                 TeamName = team.Team.Name,
-                PlayerNames = team.Players.Count() == 0 ? new List<string> { "Computer" } : team.Players.Select(p => p.Name)
+                PlayerNames = players,
             };
 
             foreach (var game in games.Where(g => g.Status != GameStatus.NotPlayed))
             {
-                if (game.Team1.MatchTeamId == team.MatchTeamId)
-                    model = CalculateTeam(model, game.Team1Score, game.Team2Score);
-                else if (game.Team2.MatchTeamId == team.MatchTeamId)
-                    model = CalculateTeam(model, game.Team2Score, game.Team1Score);
+                if (game.Team1.Equals(team.Team))
+                    model = CalculateTeamStats(model, game.Team1Score, game.Team2Score);
+                else if (game.Team2.Equals(team.Team))
+                    model = CalculateTeamStats(model, game.Team2Score, game.Team1Score);
             }
 
             return model;
         }
 
-        private GroupEntryViewModel CalculateTeam(GroupEntryViewModel model, int myTeamScore, int theirTeamScore)
+        private GroupEntryViewModel CalculateTeamStats(GroupEntryViewModel model, int myTeamScore, int theirTeamScore)
         {
             model.GoalsFor += myTeamScore;
             model.GoalsAgainst += theirTeamScore;
