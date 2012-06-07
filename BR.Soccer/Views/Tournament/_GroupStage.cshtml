@@ -33,7 +33,7 @@
             <td class="team_name">@result.Team1</td>
             <td class="result">@result.ResultFormatted</td>
             <td class="team_name">@result.Team2</td>
-            @if(Request.QueryString["admin"] != null) {
+            @if(Request.QueryString["skazzy"] != null) {
             <td>@Html.ActionLink("Edit", "MatchResults", new {id = result.GameId, tournamentId = ViewBag.TournamentId})</td>
             }
         </tr>
