@@ -192,7 +192,7 @@ namespace BR.Soccer.Controllers
                 db.Entry(game).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return RedirectToAction("Details", new { id = model.TournamentId, admin = 1 });
+                return RedirectToAction("Details", new { id = model.TournamentId, skazzy = 1 });
             }
 
             model.Team1Name = game.Team1.Name;
